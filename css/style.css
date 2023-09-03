@@ -18,7 +18,7 @@ nav{
 }
 
 #loodingScreen{
-    display: none;
+    /* display: none; */
 
 }
 #loodingScreen .spinner i{

@@ -1,10 +1,11 @@
 $(function () {
+  // endLooding()
 
-  const endSide_offset = $("nav .endSide").width() + 15;
   const navLinks = Array.from($("nav .startSide .links .link"));
-  const [search, categories, area, ingredients, contactUs] = navLinks;
-
   const mainSection = $("#main .container");
+  const [search, categories, area, ingredients, contactUs] = navLinks;
+  const endSide_offset = $("nav .endSide").width() + 15;
+  
   const byID = "https://themealdb.com/api/json/v1/1/lookup.php?i=";
   const byName = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
   const byFirstLetter = "https://www.themealdb.com/api/json/v1/1/search.php?f=";
