@@ -101,7 +101,7 @@ $(document).ready(function () {
   //  -----------------------------------------------------------------------------------------
 
   // Display func  -----------------------------------------------------------------------------------------
-  // showMeals(byName)
+  showMeals(byName)
   async function showMeals(url, param, selector = mainSection, looding) {
     // it works with 3 api's bath to it 1 requried param url and other params are optional||||| Api's --> (byName)&(byFirstLetter)&(filterByCategory)
     const meals = await getData(url, param, looding);
@@ -228,11 +228,9 @@ $(document).ready(function () {
   }
 
   async function showMealDetails(url, param) {
-    // getData(url,param)
     let details = await getData(url, param);
     endLooding();
     details = details.meals[0];
-    // console.log(details.strTags);
     let tagsDemo = "";
     let hideIfnoTags = "d-none";
     if (details.strTags) {
