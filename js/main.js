@@ -1,5 +1,4 @@
-$(function() {
-  endLooding();
+$(function () {
 
   const endSide_offset = $("nav .endSide").width() + 15;
   const navLinks = Array.from($("nav .startSide .links .link"));
@@ -9,14 +8,14 @@ $(function() {
   const byID = "https://themealdb.com/api/json/v1/1/lookup.php?i=";
   const byName = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
   const byFirstLetter = "https://www.themealdb.com/api/json/v1/1/search.php?f=";
-  const byCategories = "https://www.themealdb.com/api/json/v1/1/categories.php";
   const byArea = "https://www.themealdb.com/api/json/v1/1/filter.php?a=";
-  const filterByArea = "https://themealdb.com/api/json/v1/1/list.php?a=list";
-  const filterByCategory =
-    "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
-  const filterByIngredient =
-    "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
+  const byCategories = "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
   const byIngredient = "https://themealdb.com/api/json/v1/1/filter.php?i=";
+
+  const filterByCategory = "https://www.themealdb.com/api/json/v1/1/categories.php";
+  const filterByArea = "https://themealdb.com/api/json/v1/1/list.php?a=list";
+  const filterByIngredient =
+  "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
 
   const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -25,7 +24,7 @@ $(function() {
   const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/m;
 
   // navbar -----------------------------------------------------------------------------------------
-  $("nav .endSide button").on('click',function () {
+  $("nav .endSide button").on("click", function () {
     let Links = $(".links .link");
     let navClosed = $(this).attr("data-closed");
     if (navClosed == "true") {
@@ -67,6 +66,7 @@ $(function() {
   }
   // navbar end -----------------------------------------------------------------------------------------
 
+
   // loodingFun -----------------------------------------------------------------------------------------
   function loodingStart(time = 500) {
     $("body").addClass("overflow-hidden");
@@ -77,19 +77,14 @@ $(function() {
       $("body").removeClass("overflow-hidden");
     });
   }
-  //   function startInnLooding(time = 500){
-  //     $(" #spinner").fadeIn(time);
-  //   }
-
   function endInnLooding(time = 500) {
     $(" #spinner").fadeOut(time);
   }
-
   // loodingFun end -----------------------------------------------------------------------------------------
 
-  // Data -----------------------------------------------------------------------------------------
-
+  // getData (main function)-----------------------------------------------------------------------------------------
   async function getData(url, param = "", looding = true) {
+    // the looding param here will be false when this func called in search func becuase in search fun there is another different looding screen
     // it works with all api's (pass url as argu in Dispaly func & return json data)
     if (looding) {
       loodingStart();
@@ -101,9 +96,9 @@ $(function() {
   //  -----------------------------------------------------------------------------------------
 
   // Display func  -----------------------------------------------------------------------------------------
-  showMeals(byName)
+  showMeals(byName);
   async function showMeals(url, param, selector = mainSection, looding) {
-    // it works with 3 api's bath to it 1 requried param url and other params are optional||||| Api's --> (byName)&(byFirstLetter)&(filterByCategory)
+    // it works with 5 api's bath to it 1 requried param url and other params are optional||||| Api's --> (byName)&(byFirstLetter)&(byCategories)&(byArea)&(byIngredient)
     const meals = await getData(url, param, looding);
     endLooding();
 
@@ -138,7 +133,7 @@ $(function() {
         `);
     }
 
-    $(".meal").on('click',function () {
+    $(".meal").on("click", function () {
       showMealDetails(byID, this.getAttribute("data-mDetails"));
     });
 
@@ -188,8 +183,8 @@ $(function() {
       </div>
         `);
 
-      $(".meal").on('click',function () {
-        showMeals(filterByCategory, this.getAttribute("CName"));
+      $(".meal").on("click", function () {
+        showMeals(byCategories, this.getAttribute("CName"));
       });
     }
 
@@ -222,7 +217,7 @@ $(function() {
         </div>
         `
     );
-    $(".area").on('click',function () {
+    $(".area").on("click", function () {
       showMeals(byArea, this.getAttribute("data-area"));
     });
   }
@@ -322,7 +317,7 @@ $(function() {
     ${ingredientDemo}
     </div>
     `);
-    $(".ingredient").on('click',function () {
+    $(".ingredient").on("click", function () {
       showMeals(byIngredient, this.getAttribute("data-ingred"));
     });
   }
@@ -355,12 +350,12 @@ $(function() {
 
     $(".input input")
       .eq(0)
-      .on('keyup',function () {
+      .on("keyup", function () {
         showMeals(byName, this.value, ".result", false);
       });
     $(".input input")
       .eq(1)
-      .on('keyup',function () {
+      .on("keyup", function () {
         showMeals(byFirstLetter, this.value, ".result", false);
       });
   }
@@ -420,89 +415,91 @@ $(function() {
     `);
     $(mainSection).fadeOut(10).html(contactDemo).fadeIn(1000);
 
-    $('#name').on('keyup',function () { 
-        validation(this, nameRegex);
-     })
-     $('#email').on('keyup',function () { 
-        validation(this, emailRegex);
-     })
-     $('#phone').on('keyup',function () { 
-        validation(this, phoneRegex);
-     })
-     $('#age').on('keyup',function () { 
-        validation(this, ageRegex);
-     })
-     $('#pass').on('keyup',function () { 
-        validation(this, passRegex);
-        rePassValidation()
-     })
-     $('#rePass').on('keyup',function () { 
-        rePassValidation()
-     })
+    $("#name").on("keyup", function () {
+      validation(this, nameRegex);
+    });
+    $("#email").on("keyup", function () {
+      validation(this, emailRegex);
+    });
+    $("#phone").on("keyup", function () {
+      validation(this, phoneRegex);
+    });
+    $("#age").on("keyup", function () {
+      validation(this, ageRegex);
+    });
+    $("#pass").on("keyup", function () {
+      validation(this, passRegex);
+      rePassValidation();
+    });
+    $("#rePass").on("keyup", function () {
+      rePassValidation();
+    });
   }
   // -----------------------------------------------------------------------------------------
+
   // validation ----------------------------------------------------------------------------------
   function validation(ele, regEx) {
     if (regEx.test(ele.value)) {
-      $(ele).removeClass('is-invalid');
-      $(ele).addClass('is-valid');
-      $(ele).siblings('.myAlert').fadeOut(300)
-
+      $(ele).removeClass("is-invalid");
+      $(ele).addClass("is-valid");
+      $(ele).siblings(".myAlert").fadeOut(300);
     } else {
-      $(ele).removeClass('is-valid');
-        $(ele).addClass('is-invalid');
+      $(ele).removeClass("is-valid");
+      $(ele).addClass("is-invalid");
 
-        $(ele).siblings('.myAlert').fadeIn(300)
-
-      }
-    disBtn()  
+      $(ele).siblings(".myAlert").fadeIn(300);
+    }
+    disBtn();
   }
 
   function disBtn() {
-        if( nameRegex.test($('#name').val()) && emailRegex.test($('#email').val()) && phoneRegex.test($('#phone').val()) && ageRegex.test($('#age').val()) && passRegex.test($('#pass').val()) && passRegex.test($('#rePass').val()) ){
-              $("#conatctSec button").removeAttr("disabled");
-        }else{
-              $("#conatctSec button").attr("disabled", "disabled");
-        }
+    if (
+      nameRegex.test($("#name").val()) &&
+      emailRegex.test($("#email").val()) &&
+      phoneRegex.test($("#phone").val()) &&
+      ageRegex.test($("#age").val()) &&
+      passRegex.test($("#pass").val()) &&
+      passRegex.test($("#rePass").val())
+    ) {
+      $("#conatctSec button").removeAttr("disabled");
+    } else {
+      $("#conatctSec button").attr("disabled", "disabled");
+    }
   }
 
-  function rePassValidation() { 
-
-        const passVal = $('#pass').val();
-        const rePassVal = $('#rePass').val()
-        if(passVal == rePassVal){
-            $('#rePass').removeClass('is-invalid');
-          $('#rePass').addClass('is-valid');
-      $('#rePass').siblings('.myAlert').fadeOut(300)
-
-        }else{
-            $('#rePass').removeClass('is-valid');
-            $('#rePass').addClass('is-invalid');
-        $('#rePass').siblings('.myAlert').fadeIn(300)
-
-        }
-
-   }
+  function rePassValidation() {
+    const passVal = $("#pass").val();
+    const rePassVal = $("#rePass").val();
+    if (passVal == rePassVal) {
+      $("#rePass").removeClass("is-invalid");
+      $("#rePass").addClass("is-valid");
+      $("#rePass").siblings(".myAlert").fadeOut(300);
+    } else {
+      $("#rePass").removeClass("is-valid");
+      $("#rePass").addClass("is-invalid");
+      $("#rePass").siblings(".myAlert").fadeIn(300);
+    }
+  }
   // -----------------------------------------------------------------------------------------
 
   // events  -----------------------------------------------------------------------------------------
 
-  $(contactUs).on('click',function () {
+  $(contactUs).on("click", function () {
     showContact();
   });
 
-  $(search).on('click',function () {
+  $(search).on("click", function () {
     showSearch();
   });
 
-  $(categories).on('click',function () {
-    showCategories(byCategories);
+  $(categories).on("click", function () {
+    showCategories(filterByCategory);
   });
 
-  $(area).on('click',function () {
+  $(area).on("click", function () {
     showArea();
   });
-  $(ingredients).on('click',function () {
+  $(ingredients).on("click", function () {
     showIngredient();
   });
 });
