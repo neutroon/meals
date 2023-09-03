@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function() {
   endLooding();
 
   const endSide_offset = $("nav .endSide").width() + 15;
@@ -21,11 +21,11 @@ $(document).ready(function () {
   const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const phoneRegex = /^01[0125][0-9]{8}$/m;
-  const ageRegex = /^(1[89]|[0-9]\d)$/m;
+  const ageRegex = /^(1[89]|[1-9]\d)$/m;
   const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/m;
 
   // navbar -----------------------------------------------------------------------------------------
-  $("nav .endSide button").click(function () {
+  $("nav .endSide button").on('click',function () {
     let Links = $(".links .link");
     let navClosed = $(this).attr("data-closed");
     if (navClosed == "true") {
@@ -138,7 +138,7 @@ $(document).ready(function () {
         `);
     }
 
-    $(".meal").click(function () {
+    $(".meal").on('click',function () {
       showMealDetails(byID, this.getAttribute("data-mDetails"));
     });
 
@@ -188,7 +188,7 @@ $(document).ready(function () {
       </div>
         `);
 
-      $(".meal").click(function () {
+      $(".meal").on('click',function () {
         showMeals(filterByCategory, this.getAttribute("CName"));
       });
     }
@@ -222,7 +222,7 @@ $(document).ready(function () {
         </div>
         `
     );
-    $(".area").click(function () {
+    $(".area").on('click',function () {
       showMeals(byArea, this.getAttribute("data-area"));
     });
   }
@@ -249,7 +249,7 @@ $(document).ready(function () {
     <div class="col-md-5">
       <figure class="py-2 text-center">
         <img
-          class="w-100"
+          class="w-100 rounded-3"
           src="${details.strMealThumb}"
           alt="burger"
         />
@@ -322,7 +322,7 @@ $(document).ready(function () {
     ${ingredientDemo}
     </div>
     `);
-    $(".ingredient").click(function () {
+    $(".ingredient").on('click',function () {
       showMeals(byIngredient, this.getAttribute("data-ingred"));
     });
   }
@@ -355,12 +355,12 @@ $(document).ready(function () {
 
     $(".input input")
       .eq(0)
-      .keyup(function () {
+      .on('keyup',function () {
         showMeals(byName, this.value, ".result", false);
       });
     $(".input input")
       .eq(1)
-      .keyup(function () {
+      .on('keyup',function () {
         showMeals(byFirstLetter, this.value, ".result", false);
       });
   }
@@ -375,31 +375,37 @@ $(document).ready(function () {
         <div class="col-md-6">
             <div class="py-2 px-2">
                 <input id="name" class="form-control py-2" placeholder="Your name" type="text">
+                <div style="display:none" class="myAlert alert alert-danger mb-0 mt-1 p-1" role="alert">Special characters and numbers not allowed</div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="py-2 px-2">
                 <input id="email" class="form-control py-2" placeholder="Your email" type="text">
+                <div style="display:none" class="myAlert alert alert-danger mb-0 mt-1 p-1" role="alert">Email not valid *exemple@yyy.zzz</div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="py-2 px-2">
                 <input id="phone" class="form-control py-2" placeholder="Your phone" type="text">
+                <div style="display:none" class="myAlert alert alert-danger mb-0 mt-1 p-1" role="alert">Enter valid Egyptian Phone Number</div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="py-2 px-2">
                 <input id="age" class="form-control py-2" placeholder="Your age" type="number">
+                <div style="display:none" class="myAlert alert alert-danger mb-0 mt-1 p-1" role="alert">Enter valid age between 10 & 99</div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="py-2 px-2">
                 <input id="pass" class="form-control py-2" placeholder="Your password" type="password">
+                <div style="display:none" class="myAlert alert alert-danger mb-0 mt-1 p-1" role="alert">Minimum eight characters, at least two letters one of them is captalized and one number</div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="py-2 px-2">
                 <input id="rePass" class="form-control py-2" placeholder="Repassword" type="password">
+                <div style="display:none" class="myAlert alert alert-danger mb-0 mt-1 p-1" role="alert">Passwords doesn't match</div>
             </div>
         </div>
         <div class="col-md-12">
@@ -414,54 +420,49 @@ $(document).ready(function () {
     `);
     $(mainSection).fadeOut(10).html(contactDemo).fadeIn(1000);
 
-    $('#name').keyup(function () { 
+    $('#name').on('keyup',function () { 
         validation(this, nameRegex);
      })
-     $('#email').keyup(function () { 
+     $('#email').on('keyup',function () { 
         validation(this, emailRegex);
      })
-     $('#phone').keyup(function () { 
+     $('#phone').on('keyup',function () { 
         validation(this, phoneRegex);
      })
-     $('#age').keyup(function () { 
+     $('#age').on('keyup',function () { 
         validation(this, ageRegex);
      })
-     $('#pass').keyup(function () { 
+     $('#pass').on('keyup',function () { 
         validation(this, passRegex);
         rePassValidation()
      })
-     $('#rePass').keyup(function () { 
+     $('#rePass').on('keyup',function () { 
         rePassValidation()
-
      })
-
-
-
   }
   // -----------------------------------------------------------------------------------------
   // validation ----------------------------------------------------------------------------------
   function validation(ele, regEx) {
-    // $(ele).keyup(function () {
-      console.log(regEx.test(ele.value));
     if (regEx.test(ele.value)) {
-        $(ele).removeClass('is-invalid');
+      $(ele).removeClass('is-invalid');
       $(ele).addClass('is-valid');
+      $(ele).siblings('.myAlert').fadeOut(300)
+
     } else {
       $(ele).removeClass('is-valid');
         $(ele).addClass('is-invalid');
-    }
-    disBtn()
 
-    // }
-    
+        $(ele).siblings('.myAlert').fadeIn(300)
+
+      }
+    disBtn()  
   }
+
   function disBtn() {
-        if( nameRegex.test($('#name').val()) && emailRegex.test($('#email').val()) && phoneRegex.test($('#phone').val()) && ageRegex.test($('#age').val()) && passRegex.test($('#pass').val())){
+        if( nameRegex.test($('#name').val()) && emailRegex.test($('#email').val()) && phoneRegex.test($('#phone').val()) && ageRegex.test($('#age').val()) && passRegex.test($('#pass').val()) && passRegex.test($('#rePass').val()) ){
               $("#conatctSec button").removeAttr("disabled");
-              console.log('ena');
         }else{
               $("#conatctSec button").attr("disabled", "disabled");
-              console.log('disa');
         }
   }
 
@@ -472,9 +473,13 @@ $(document).ready(function () {
         if(passVal == rePassVal){
             $('#rePass').removeClass('is-invalid');
           $('#rePass').addClass('is-valid');
+      $('#rePass').siblings('.myAlert').fadeOut(300)
+
         }else{
             $('#rePass').removeClass('is-valid');
             $('#rePass').addClass('is-invalid');
+        $('#rePass').siblings('.myAlert').fadeIn(300)
+
         }
 
    }
@@ -482,22 +487,22 @@ $(document).ready(function () {
 
   // events  -----------------------------------------------------------------------------------------
 
-  $(contactUs).click(function () {
+  $(contactUs).on('click',function () {
     showContact();
   });
 
-  $(search).click(function () {
+  $(search).on('click',function () {
     showSearch();
   });
 
-  $(categories).click(function () {
+  $(categories).on('click',function () {
     showCategories(byCategories);
   });
 
-  $(area).click(function () {
+  $(area).on('click',function () {
     showArea();
   });
-  $(ingredients).click(function () {
+  $(ingredients).on('click',function () {
     showIngredient();
   });
 });
