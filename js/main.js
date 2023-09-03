@@ -414,28 +414,46 @@ $(document).ready(function () {
     `);
     $(mainSection).fadeOut(10).html(contactDemo).fadeIn(1000);
 
-    validation("#name", nameRegex);
-    validation("#email", emailRegex);
-    validation("#phone", phoneRegex);
-    validation("#age", ageRegex);
-    validation("#pass", passRegex);
-    rePassValidation()
+    $('#name').keyup(function () { 
+        validation(this, nameRegex);
+     })
+     $('#email').keyup(function () { 
+        validation(this, emailRegex);
+     })
+     $('#phone').keyup(function () { 
+        validation(this, phoneRegex);
+     })
+     $('#age').keyup(function () { 
+        validation(this, ageRegex);
+     })
+     $('#pass').keyup(function () { 
+        validation(this, passRegex);
+        rePassValidation()
+     })
+     $('#rePass').keyup(function () { 
+        rePassValidation()
+
+     })
+
+
+
   }
   // -----------------------------------------------------------------------------------------
   // validation ----------------------------------------------------------------------------------
   function validation(ele, regEx) {
-    $(ele).keyup(function () {
-      console.log(regEx.test(this.value));
-    if (regEx.test(this.value)) {
-        $(this).removeClass('is-invalid');
-      $(this).addClass('is-valid');
+    // $(ele).keyup(function () {
+      console.log(regEx.test(ele.value));
+    if (regEx.test(ele.value)) {
+        $(ele).removeClass('is-invalid');
+      $(ele).addClass('is-valid');
     } else {
-      $(this).removeClass('is-valid');
-        $(this).addClass('is-invalid');
+      $(ele).removeClass('is-valid');
+        $(ele).addClass('is-invalid');
     }
     disBtn()
 
-    });
+    // }
+    
   }
   function disBtn() {
         if( nameRegex.test($('#name').val()) && emailRegex.test($('#email').val()) && phoneRegex.test($('#phone').val()) && ageRegex.test($('#age').val()) && passRegex.test($('#pass').val())){
@@ -448,17 +466,17 @@ $(document).ready(function () {
   }
 
   function rePassValidation() { 
-    $('#rePass').keyup(function () { 
+
         const passVal = $('#pass').val();
-        const rePassVal = $(this).val()
+        const rePassVal = $('#rePass').val()
         if(passVal == rePassVal){
-            $(this).removeClass('is-invalid');
-          $(this).addClass('is-valid');
+            $('#rePass').removeClass('is-invalid');
+          $('#rePass').addClass('is-valid');
         }else{
-            $(this).removeClass('is-valid');
-            $(this).addClass('is-invalid');
+            $('#rePass').removeClass('is-valid');
+            $('#rePass').addClass('is-invalid');
         }
-     })
+
    }
   // -----------------------------------------------------------------------------------------
 
